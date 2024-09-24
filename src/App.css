@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.button_color{
+  margin-top: 100px;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: cadetblue;
+  color: rgb(255, 226, 219);
+  font-weight: bold;
+  cursor: pointer;
+}
