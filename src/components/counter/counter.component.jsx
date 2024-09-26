@@ -4,9 +4,22 @@ import React, { useState, useEffect, useRef, useContext } from "react";
 //importo la variabile del cambio colore themeContent
 import { themeContent } from "../../App";
 
+//importo l'HOOK personalizzato
+import { useTheme } from '../../contexts/theme-context'
+
 import "./counter.styles.scss";
 
 const Counter = () => {
+    //dichiaro una classe come oggetto da passare per lo stile in linea
+    const box = {
+      color: "#000000",
+      backgroundColor: "#FFFFFF",
+      alignSelf: "center",
+      marginTop: "15px",
+      padding: "0px 10px",
+      borderRadius: "15px",
+    };
+
   //definisco le proprietà per il cambio colore
   const darkWrapper = {
     backgroundColor: "#333333",
@@ -19,10 +32,13 @@ const Counter = () => {
   };
 
   //dichiaro una variabile per l'HOOK useContext che deve leggere il valore importato di themeContent
-  const themeValue = useContext(themeContent);
+  // const themeValue = useContext(themeContent);
 
   //creo un variabile che restituisce un array (destrutturazione) per modificare lo state, in base al suo valore di partenza da noi impostato: setState(0)
   const [count, setCount] = useState(0);
+
+  //creo uno state basato sull'HOOK personalizzato di theme-context
+  const {darkTheme, setTheme} = useTheme();
 
   //
   //dichiaro una funzione per l'evento onClick di Increase
@@ -41,18 +57,6 @@ const Counter = () => {
     if (count > 0) {
       setCount((count) => count - 1);
     }
-  };
-
-  //dichiaro una classe come oggetto da passare per lo stile in linea
-  const box = {
-    color: "#000000",
-    backgroundColor: "#FFFFFF",
-    maxWidth: "100%",
-    maxHeight: "100%",
-    alignSelf: "center",
-    marginTop: "15px",
-    padding: "0px 10px",
-    borderRadius: "15px",
   };
 
   //dichiaro la funzione useEffect come fosse componentDidMount()
@@ -124,31 +128,32 @@ const Counter = () => {
       <div className="wrapper_buttons">
         {/* aggiungo l'evento onClick per decrementare il valore di number */}
         {/* invoco la funzione nell'evento tramite un'arrow function */}
-        {/* aggiungo un controllo per lo stile -> SE themeValue esiste, ALLORA applicare dark ALTRIMENTI light  */}
-
+        {/* aggiungo un controllo per lo stile -> SE darkTheme esiste, ALLORA applicare dark ALTRIMENTI light  */}
         <button
           type="submit"
           onClick={DecreaseNumber}
           className="button_counter"
-          style={(themeValue) ? darkWrapper : lightWrapper}
+          style={(darkTheme) ? darkWrapper : lightWrapper}
         >
           Decrease
         </button>
 
         {/* aggiungo l'evento onClick per incrementare il valore di number */}
         {/* aggiungo il ref che invoca l'HOOK useRef */}
-        {/* aggiungo un controllo per lo stile -> SE value esiste, ALLORA applicare dark ALTRIMENTI light  */}
-
+        {/* aggiungo un controllo per lo stile -> SE darkTheme esiste, ALLORA applicare dark ALTRIMENTI light  */}
         <button
           type="submit"
           ref={inputEl}
           onClick={IncreaseNumber}
           className="button_counter"
-          style={(themeValue) ? darkWrapper : lightWrapper}
+          style={(darkTheme) ? darkWrapper : lightWrapper}
         >
           Increase
         </button>
       </div>
+
+        {/* aggiungo un pulsante con evento al Click per il cambio del tema basato sull'HOOK personalizzato (setTheme) */}
+        <button type="submit" className="button_color" onClick={setTheme}>Change Buttons Color</button>
     </div>
   );
 };
